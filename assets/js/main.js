@@ -214,7 +214,7 @@
                 (clickable ? ' type="button" data-cs="' + p.cs + '" data-view="1" aria-label="Open case study: ' + p.name + '"' : ' aria-label="' + p.name + '"');
     return "<" + tag + " " + attrs + ">" +
         '<div class="cover">' + cover(p) +
-          '<span class="hcx tl"></span><span class="hcx br"></span><span class="reg">' + (clickable ? "Case study" : (p.ongoing ? "Ongoing" : "")) + "</span>" +
+          '<span class="hcx tl"></span><span class="hcx br"></span>' + (p.ongoing && !clickable ? '<span class="reg">Ongoing</span>' : "") +
         "</div>" +
         '<div class="meta">' +
           '<div><div class="title">' + p.name + '</div><div class="ttl-sub">' + p.sub + "</div></div>" +
