@@ -1,0 +1,268 @@
+/* =========================================================================
+   work.css — styles for individual project/case study pages (work/*.html)
+   ========================================================================= */
+
+/* ---- page shell ---- */
+.work-page { padding-top: clamp(80px, 10vw, 120px); }
+
+/* ---- back link ---- */
+.work-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color var(--t-fast);
+  margin-bottom: clamp(40px, 6vw, 72px);
+}
+.work-back:hover { color: var(--ink); }
+.work-back::before { content: "←"; font-size: 1.1em; }
+
+/* ---- hero ---- */
+.work-hero { margin-bottom: clamp(40px, 6vw, 80px); }
+.work-tag {
+  display: inline-block;
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--signal);
+  margin-bottom: 16px;
+}
+.work-title {
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+.work-tagline {
+  font-size: clamp(16px, 1.6vw, 20px);
+  color: var(--ink-2);
+  max-width: 600px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ---- meta grid ---- */
+.work-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: clamp(40px, 6vw, 80px);
+}
+.work-meta-item {
+  background: var(--bg);
+  padding: clamp(16px, 2vw, 24px);
+}
+.work-meta-label {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  display: block;
+  margin-bottom: 6px;
+}
+.work-meta-value {
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---- cover image ---- */
+.work-cover {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  border-radius: calc(var(--radius) * 2);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  margin-bottom: clamp(48px, 7vw, 96px);
+  position: relative;
+}
+.work-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.work-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--ink-3);
+  font-size: var(--fs-meta);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ---- body sections ---- */
+.work-body { max-width: 720px; }
+
+.work-section { margin-bottom: clamp(40px, 5vw, 64px); }
+
+.work-section-label {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  display: block;
+  margin-bottom: 14px;
+}
+.work-section h3 {
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -.015em;
+  color: var(--ink);
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+.work-section p {
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin: 0 0 16px;
+}
+.work-section p:last-child { margin-bottom: 0; }
+
+/* ---- divider ---- */
+.work-divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: clamp(32px, 4vw, 56px) 0;
+}
+
+/* ---- impact ---- */
+.work-impact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+.work-impact-item {
+  padding: clamp(20px, 2.5vw, 32px) clamp(16px, 2vw, 24px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.work-impact-metric {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.work-impact-label {
+  font-size: var(--fs-meta);
+  color: var(--ink-3);
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+/* ---- image gallery (for adding more images later) ---- */
+.work-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(12px, 1.5vw, 20px);
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+.work-gallery-item {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  aspect-ratio: 4 / 3;
+}
+.work-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.work-gallery-caption {
+  font-size: var(--fs-meta);
+  color: var(--ink-3);
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ---- nav between projects ---- */
+.work-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: clamp(48px, 7vw, 96px);
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+.work-nav a {
+  background: var(--bg);
+  padding: clamp(20px, 3vw, 36px) clamp(20px, 2.5vw, 32px);
+  text-decoration: none;
+  transition: background var(--t-fast);
+  display: block;
+}
+.work-nav a:hover { background: var(--surface); }
+.work-nav .wn-dir {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  display: block;
+  margin-bottom: 8px;
+}
+.work-nav .wn-name {
+  font-size: clamp(15px, 1.3vw, 18px);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -.01em;
+}
+.work-nav .wn-next { text-align: right; }
+
+/* ---- CTA ---- */
+.work-cta {
+  text-align: center;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 4vw, 48px);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 2);
+  background: var(--surface);
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+.work-cta h3 {
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+.work-cta p {
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: var(--ink-2);
+  margin: 0 0 28px;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 640px) {
+  .work-nav { grid-template-columns: 1fr; }
+  .work-nav .wn-next { text-align: left; }
+}
