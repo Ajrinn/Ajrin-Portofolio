@@ -527,7 +527,7 @@
   });
   // CV links (point at a file the owner can drop in)
   ["#cv-link", "#cv-link-2", "#cv-link-3", "#mm-cv"].forEach(function (sel) {
-    var el = $(sel); if (el) { el.setAttribute("href", "Ajrin-CV.pdf"); el.setAttribute("download", ""); }
+    var el = $(sel); if (el) { el.setAttribute("href", "https://drive.google.com/file/d/1gfbWJx07xmf0uFvOsg3N6JgOo4vGSCDV/view"); el.setAttribute("target", "_blank"); el.setAttribute("rel", "noopener"); el.removeAttribute("download"); }
   });
 
   /* =========================================================================
