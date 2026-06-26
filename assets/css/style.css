@@ -591,3 +591,40 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
   .cs-metarow{grid-template-columns:1fr 1fr}
   .sec-head{flex-direction:column;gap:14px}
 }
+
+/* =========================================================================
+   INTERACTIVE ANIMATIONS — filter pill, FLIP, tilt, counter
+   ========================================================================= */
+
+/* ---- sliding pill indicator ---- */
+.filters{position:relative}
+.chip-slider{
+  position:absolute;
+  background:var(--signal);
+  border-radius:999px;
+  pointer-events:none;
+  z-index:0;
+  transition:left .45s cubic-bezier(.34,1.56,.64,1),
+             top .45s cubic-bezier(.34,1.56,.64,1),
+             width .45s cubic-bezier(.34,1.56,.64,1),
+             height .1s;
+}
+.chip{position:relative;z-index:1}
+/* once slider is ready, strip background from active chip (slider provides it) */
+.filters.has-slider .chip.active{
+  background:transparent!important;
+  border-color:transparent!important;
+  color:var(--bg)
+}
+/* keep text readable against green slider in both themes */
+[data-theme="dark"] .filters.has-slider .chip.active{color:var(--on-accent)}
+
+/* ---- counter fade+slide ---- */
+@keyframes cntOut{from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-6px)}}
+@keyframes cntIn {from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)}}
+.cnt-out{animation:cntOut .13s var(--ease) both}
+.cnt-in {animation:cntIn  .2s  var(--ease) both}
+
+/* ---- grid card 3D tilt — GPU layer ---- */
+.proj{will-change:transform}
+.proj.animating{pointer-events:none}

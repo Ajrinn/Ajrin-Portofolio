@@ -184,8 +184,8 @@
   var stats = [
     { v: 30, prefix: "", suffix: "+", l: "Projects shipped" },
     { v: 6,  prefix: "", suffix: "+", l: "Years designing" },
-    { v: 25, prefix: "-", suffix: "%", l: "UI bugs at Bukuku" },
-    { v: 30, prefix: "+", suffix: "%", l: "Battery sales at Dynavolt" }
+    { v: 10, prefix: "",  suffix: "+", l: "Companies and Clients" },
+    { v: 15, prefix: "",  suffix: "+", l: "Project industries" }
   ];
 
   // EDIT ME: your articles. Set "url" to the live link (e.g. your Medium post). Newest first.
@@ -241,6 +241,7 @@
 
   /* ---- selected grid ---- */
   $("#work-grid").innerHTML = projects.filter(function (p) { return p.selected; }).map(projCard).join("");
+  attachTilt($$("#work-grid .proj"));
 
   /* ---- services ---- */
   $("#svc-list").innerHTML = services.map(function (s, i) {
@@ -263,6 +264,7 @@
   $("#index-grid").innerHTML = projects.map(projCard).join("");
   $("#index-list").innerHTML = projects.map(listRow).join("");
   $("#proj-count").textContent = projects.length + " projects";
+  attachTilt($$("#index-grid .proj"));
 
   /* ---- articles ---- */
   $("#articles").innerHTML = articles.map(function (a) {
@@ -427,45 +429,192 @@
     { k: "webapp", label: "Web App" }, { k: "mobile", label: "Mobile App" },
     { k: "research", label: "UX Research" }
   ];
-  $("#filters").innerHTML = filterDefs.map(function (f, i) {
-    return '<button class="chip' + (i === 0 ? " active" : "") + '" data-filter="' + f.k + '">' + f.label + "</button>";
-  }).join("");
+  var filtersEl = $("#filters");
+  filtersEl.innerHTML = '<span class="chip-slider" id="chip-slider"></span>' +
+    filterDefs.map(function (f, i) {
+      return '<button class="chip' + (i === 0 ? " active" : "") + '" data-filter="' + f.k + '">' + f.label + "</button>";
+    }).join("");
 
-  function applyFilter(key) {
+  /* ---- sliding pill indicator ---- */
+  var slider = $("#chip-slider");
+  function moveSlider(chip, instant) {
+    var fr = filtersEl.getBoundingClientRect();
+    var cr = chip.getBoundingClientRect();
+    if (instant) { slider.style.transition = "none"; void slider.offsetHeight; }
+    slider.style.left   = (cr.left - fr.left) + "px";
+    slider.style.top    = (cr.top  - fr.top)  + "px";
+    slider.style.width  = cr.width  + "px";
+    slider.style.height = cr.height + "px";
+    if (instant) { void slider.offsetHeight; slider.style.transition = ""; }
+  }
+  requestAnimationFrame(function () {
+    var first = filtersEl.querySelector(".chip.active");
+    if (first) { moveSlider(first, true); filtersEl.classList.add("has-slider"); }
+  });
+  window.addEventListener("resize", function () {
+    var active = filtersEl.querySelector(".chip.active");
+    if (active) moveSlider(active, true);
+  });
+
+  /* ---- animated counter ---- */
+  var pcEl = $("#proj-count"), pcTimer;
+  function animateCounter(text) {
+    clearTimeout(pcTimer);
+    pcEl.classList.remove("cnt-out", "cnt-in");
+    void pcEl.offsetHeight;
+    pcEl.classList.add("cnt-out");
+    pcTimer = setTimeout(function () {
+      pcEl.textContent = text;
+      pcEl.classList.remove("cnt-out");
+      pcEl.classList.add("cnt-in");
+      pcTimer = setTimeout(function () { pcEl.classList.remove("cnt-in"); }, 220);
+    }, 130);
+  }
+
+  /* ---- 3D tilt on grid cards ---- */
+  function attachTilt(cards) {
+    if (!fine || reduce) return;
+    cards.forEach(function (card) {
+      card.addEventListener("mouseenter", function () {
+        if (card.classList.contains("animating")) return;
+        card.style.transition = "transform 0.12s linear";
+      });
+      card.addEventListener("mousemove", function (e) {
+        if (card.classList.contains("animating")) return;
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width  * 2 - 1;
+        var y = (e.clientY - r.top)  / r.height * 2 - 1;
+        card.style.transform = "perspective(800px) rotateY(" + (x * 6).toFixed(2) + "deg) rotateX(" + (-y * 4).toFixed(2) + "deg) scale(1.015)";
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.transition = "transform 0.65s cubic-bezier(.34,1.2,.64,1)";
+        card.style.transform = "";
+        setTimeout(function () { card.style.transition = ""; }, 700);
+      });
+    });
+  }
+
+  var grid = $("#index-grid"), list = $("#index-list"), curView = "grid";
+
+  /* ---- FLIP filter ---- */
+  function applyFilter(key, noAnim) {
+    var gridCards = $$("#index-grid .proj");
+    var gridVisible = curView === "grid";
     var visible = 0;
-    function match(el) {
-      if (key === "all") return true;
-      if (key === "research") return el.getAttribute("data-research") === "1";
-      return el.getAttribute("data-cat") === key;
+
+    // First: record positions of currently visible cards
+    var firstMap = {};
+    if (!reduce && !noAnim && gridVisible) {
+      gridCards.forEach(function (el, i) {
+        if (el.style.display !== "none") firstMap[i] = el.getBoundingClientRect();
+      });
     }
-    // grid uses .proj (no data-cat) -> mirror from projects array by index order
-    $$("#index-grid .proj").forEach(function (el, i) {
+
+    // Apply filter
+    gridCards.forEach(function (el, i) {
       var p = projects[i];
       var show = key === "all" ? true : key === "research" ? p.research : p.cat === key;
       el.style.display = show ? "" : "none";
       if (show) visible++;
     });
     $$("#index-list .row").forEach(function (el) {
-      el.style.display = match(el) ? "" : "none";
+      var ok = key === "all" ? true : key === "research" ?
+        el.getAttribute("data-research") === "1" :
+        el.getAttribute("data-cat") === key;
+      el.style.display = ok ? "" : "none";
     });
-    $("#proj-count").textContent = visible + (visible === 1 ? " project" : " projects");
+
+    animateCounter(visible + (visible === 1 ? " project" : " projects"));
+
+    // Last → Invert → Play
+    if (!reduce && !noAnim && gridVisible) {
+      requestAnimationFrame(function () {
+        var stagger = 0;
+        gridCards.forEach(function (el, i) {
+          if (el.style.display === "none") return;
+          var last  = el.getBoundingClientRect();
+          var first = firstMap[i];
+          if (first) {
+            // card existed before: FLIP slide
+            var dx = first.left - last.left;
+            var dy = first.top  - last.top;
+            if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+              el.classList.add("animating");
+              el.style.transition = "none";
+              el.style.transform  = "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px)";
+              requestAnimationFrame(function () {
+                el.style.transition = "transform 0.55s cubic-bezier(.34,1.2,.64,1)";
+                el.style.transform  = "";
+                el.addEventListener("transitionend", function h() {
+                  el.classList.remove("animating");
+                  el.style.transition = "";
+                  el.removeEventListener("transitionend", h);
+                });
+              });
+            }
+          } else {
+            // newly visible card: staggered fade + scale + rise
+            var d = Math.min(stagger, 8) * 52;
+            stagger++;
+            el.classList.add("animating");
+            el.style.transition = "none";
+            el.style.opacity    = "0";
+            el.style.transform  = "translateY(18px) scale(0.96)";
+            setTimeout(function () {
+              el.style.transition = "opacity 0.38s var(--ease), transform 0.38s var(--ease-out)";
+              el.style.opacity    = "";
+              el.style.transform  = "";
+              setTimeout(function () {
+                el.classList.remove("animating");
+                el.style.transition = "";
+              }, 420);
+            }, d + 16);
+          }
+        });
+      });
+    }
   }
+
   $$("#filters .chip").forEach(function (c) {
     c.addEventListener("click", function () {
       $$("#filters .chip").forEach(function (x) { x.classList.remove("active"); });
       c.classList.add("active");
+      moveSlider(c);
       applyFilter(c.getAttribute("data-filter"));
     });
   });
 
-  var grid = $("#index-grid"), list = $("#index-list");
+  /* ---- staggered view switch ---- */
+  function staggerView(els) {
+    if (reduce) return;
+    var cap = Math.min(els.length, 12);
+    els.forEach(function (el, i) {
+      var d = Math.min(i, cap - 1) * 30 + 8;
+      el.style.opacity   = "0";
+      el.style.transform = "translateY(12px) scale(0.97)";
+      el.style.transition = "none";
+      setTimeout(function () {
+        el.style.transition = "opacity 0.3s var(--ease), transform 0.3s var(--ease-out)";
+        el.style.opacity    = "";
+        el.style.transform  = "";
+        setTimeout(function () { el.style.transition = ""; el.style.opacity = ""; el.style.transform = ""; }, 350);
+      }, d);
+    });
+  }
+
   $("#view-grid").addEventListener("click", function () {
-    grid.style.display = ""; list.style.display = "none";
+    if (curView === "grid") return;
+    curView = "grid";
+    list.style.display = "none"; grid.style.display = "";
     this.classList.add("active"); $("#view-list").classList.remove("active");
+    staggerView($$("#index-grid .proj").filter(function (el) { return el.style.display !== "none"; }));
   });
   $("#view-list").addEventListener("click", function () {
+    if (curView === "list") return;
+    curView = "list";
     grid.style.display = "none"; list.style.display = "block";
     this.classList.add("active"); $("#view-grid").classList.remove("active");
+    staggerView($$("#index-list .row").filter(function (el) { return el.style.display !== "none"; }));
   });
 
   /* =========================================================================
