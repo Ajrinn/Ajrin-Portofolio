@@ -875,4 +875,165 @@
     document.addEventListener("mouseenter", function () { ring.style.opacity = ""; dot.style.opacity = ""; });
   }
 
+  /* =========================================================================
+     MAGNETIC — button pulled toward cursor, springs back on leave
+     ========================================================================= */
+  function attachMag(el, str) {
+    if (!fine || reduce) return;
+    str = str || 0.28;
+    el.addEventListener("pointermove", function (e) {
+      var r = el.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width  * 0.5)) * str;
+      var dy = (e.clientY - (r.top  + r.height * 0.5)) * str;
+      el.style.transition = "transform 0.15s var(--ease)";
+      el.style.transform  = "translate(" + dx.toFixed(2) + "px," + dy.toFixed(2) + "px)";
+    });
+    el.addEventListener("pointerleave", function () {
+      el.style.transition = "transform 0.55s cubic-bezier(.34,1.2,.64,1)";
+      el.style.transform  = "";
+      setTimeout(function () { el.style.transition = ""; el.style.transform = ""; }, 580);
+    });
+  }
+
+  /* view-toggle buttons */
+  if (fine && !reduce) {
+    $$(".vbtn").forEach(function (b) { attachMag(b, 0.30); });
+  }
+
+  /* =========================================================================
+     SPOTLIGHT — radial glow follows cursor over project covers
+     ========================================================================= */
+  if (fine && !reduce) {
+    function injectSpot(root) {
+      $$(".cover", root).forEach(function (cv) {
+        if (cv.querySelector(".cover-spot")) return;
+        var sp = document.createElement("div"); sp.className = "cover-spot";
+        cv.appendChild(sp);
+        cv.addEventListener("pointermove", function (e) {
+          var r = cv.getBoundingClientRect();
+          cv.style.setProperty("--sx", ((e.clientX - r.left) / r.width  * 100).toFixed(1) + "%");
+          cv.style.setProperty("--sy", ((e.clientY - r.top)  / r.height * 100).toFixed(1) + "%");
+        });
+      });
+    }
+    injectSpot(document);
+    /* when case-study modal opens: inject spotlight + CS-nav magnetic */
+    var _csModal = $("#cs-modal");
+    if (_csModal) {
+      new MutationObserver(function (muts) {
+        muts.forEach(function (m) {
+          if (m.attributeName === "class" && _csModal.classList.contains("open")) {
+            var scroll = $("#cs-scroll");
+            injectSpot(scroll);
+            $$(".cs-nav a", scroll).forEach(function (a) { attachMag(a, 0.18); });
+          }
+        });
+      }).observe(_csModal, { attributes: true });
+    }
+  }
+
+  /* =========================================================================
+     HERO AURORA — green ambient glow follows cursor with soft lag
+     ========================================================================= */
+  (function () {
+    var au = $("#hero-aurora");
+    if (!au || reduce) return;
+    var hs = au.parentElement;
+    var tx = 0.38, ty = 0.34, cx = 0.38, cy = 0.34;
+    function auLoop() {
+      cx += (tx - cx) * 0.045;
+      cy += (ty - cy) * 0.045;
+      var r = hs.getBoundingClientRect();
+      au.style.transform = "translate(" + (cx * r.width).toFixed(1) + "px," + (cy * r.height).toFixed(1) + "px) translate(-50%,-55%)";
+      requestAnimationFrame(auLoop);
+    }
+    requestAnimationFrame(auLoop);
+    if (fine) {
+      document.addEventListener("pointermove", function (e) {
+        var r = hs.getBoundingClientRect();
+        tx = Math.max(0.05, Math.min(0.95, (e.clientX - r.left) / r.width));
+        ty = Math.max(-0.1,  Math.min(1.1,  (e.clientY - r.top)  / r.height));
+      });
+    }
+  })();
+
+  /* =========================================================================
+     STAGGERED SCROLL REVEAL — children rise+fade in sequence
+     ========================================================================= */
+  (function () {
+    function staggerIO(container, sel, step, cap) {
+      if (!container) return;
+      step = step || 62; cap = cap || 500;
+      var kids = sel ? $$(sel, container) : [].slice.call(container.children);
+      if (!kids.length) return;
+      kids.forEach(function (el, i) {
+        el.classList.add("sr-item");
+        el.style.setProperty("--sd", Math.min(i * step, cap) + "ms");
+      });
+      if (!("IntersectionObserver" in window)) {
+        kids.forEach(function (el) { el.classList.add("in"); });
+        return;
+      }
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) {
+          kids.forEach(function (el) { el.classList.add("in"); });
+          io.disconnect();
+        }
+      }, { threshold: 0.07, rootMargin: "0px 0px -5% 0px" });
+      io.observe(container);
+    }
+
+    staggerIO($("#work-grid"), ".proj",       68, 440);
+    staggerIO($("#svc-list"),  ".svc",        65, 500);
+    staggerIO($("#stats"),     ".stat",       80, 380);
+    staggerIO($("#articles"), ".art-item",   72, 450);
+    staggerIO($("#clients"),  ".client-chip", 42, 340);
+    staggerIO($("#res-list"),  ".res-row",    75, 320);
+  })();
+
+  /* 4. About photo — clip-wipe reveal + float + 3D tilt */
+  (function () {
+    var ap = document.getElementById("about-photo");
+    if (!ap) return;
+
+    /* Clip-path scroll reveal → then start float */
+    var apIO = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      ap.classList.add("ap-in");
+      apIO.disconnect();
+      if (!reduce) {
+        ap.addEventListener("transitionend", function onClip(e) {
+          if (e.propertyName !== "clip-path") return;
+          ap.classList.add("ap-float");
+          ap.removeEventListener("transitionend", onClip);
+        });
+      }
+    }, { threshold: 0.15 });
+    apIO.observe(ap);
+
+    /* 3D tilt on hover */
+    if (fine && !reduce) {
+      ap.addEventListener("mouseenter", function () {
+        if (!ap.classList.contains("ap-in")) return;
+        ap.style.animationPlayState = "paused";
+        ap.style.transition = "transform 0.12s linear";
+      });
+      ap.addEventListener("mousemove", function (e) {
+        if (!ap.classList.contains("ap-in")) return;
+        var r = ap.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width  * 2 - 1;
+        var y = (e.clientY - r.top)  / r.height * 2 - 1;
+        ap.style.transform = "perspective(900px) rotateY(" + (x * 5).toFixed(2) + "deg) rotateX(" + (-y * 4).toFixed(2) + "deg)";
+      });
+      ap.addEventListener("mouseleave", function () {
+        ap.style.transition = "transform 0.65s cubic-bezier(.34,1.2,.64,1)";
+        ap.style.transform = "";
+        setTimeout(function () {
+          ap.style.transition = "";
+          ap.style.animationPlayState = "";
+        }, 700);
+      });
+    }
+  })();
+
 })();

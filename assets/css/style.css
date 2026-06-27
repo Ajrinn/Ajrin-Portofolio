@@ -628,3 +628,67 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
 /* ---- grid card 3D tilt — GPU layer ---- */
 .proj{will-change:transform}
 .proj.animating{pointer-events:none}
+
+/* =========================================================================
+   PREMIUM WEB3 INTERACTIONS  ·  Spotlight · Aurora · Stagger · Magnetic
+   ========================================================================= */
+
+/* 1. Cover spotlight — radial glow at cursor position */
+.cover-spot{
+  position:absolute;inset:0;pointer-events:none;z-index:2;
+  opacity:0;transition:opacity .35s var(--ease);
+  background:radial-gradient(circle 190px at var(--sx,50%) var(--sy,50%),rgba(255,255,255,.22) 0%,transparent 68%);
+  mix-blend-mode:soft-light;border-radius:inherit;
+}
+.cover:hover .cover-spot{opacity:1}
+
+/* 2. Hero aurora — soft green ambient behind AJRIN */
+.hero{position:relative}
+.hero-aurora{
+  position:absolute;width:860px;height:440px;
+  pointer-events:none;z-index:0;will-change:transform;
+  background:radial-gradient(ellipse at center,rgba(27,138,75,.26) 0%,rgba(27,138,75,.07) 44%,transparent 70%);
+  filter:blur(72px);opacity:.82;
+}
+[data-theme="dark"] .hero-aurora{
+  background:radial-gradient(ellipse at center,rgba(52,199,120,.22) 0%,rgba(52,199,120,.06) 44%,transparent 70%);
+}
+@media(prefers-reduced-motion:reduce){.hero-aurora{display:none}}
+
+/* 3. Staggered scroll reveal */
+.sr-item{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .58s var(--ease),transform .58s var(--ease-out);
+  transition-delay:var(--sd,0ms);
+}
+.sr-item.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .sr-item{opacity:1!important;transform:none!important;transition:none!important}
+}
+
+/* 4. About photo — clip-wipe reveal + float + tilt */
+@keyframes ap-float{
+  0%,100%{transform:translateY(0px)}
+  50%    {transform:translateY(-10px)}
+}
+.about-photo{
+  clip-path:inset(0 0 100% 0 round var(--radius));
+  transition:clip-path .88s cubic-bezier(.77,0,.175,1) .32s;
+}
+.about-photo.ap-in{clip-path:inset(0 0 0% 0 round var(--radius))}
+.about-photo.ap-float{animation:ap-float 7s ease-in-out infinite}
+.about-photo img{
+  filter:saturate(.78);
+  transition:filter .55s var(--ease),transform .6s var(--ease);
+}
+.about-photo:hover img{filter:saturate(1);transform:scale(1.03)}
+.about-photo::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  box-shadow:inset 0 0 0 1.5px var(--signal);
+  opacity:0;transition:opacity .45s var(--ease);pointer-events:none;
+}
+.about-photo:hover::after{opacity:.55}
+@media(prefers-reduced-motion:reduce){
+  .about-photo{clip-path:none!important;transition:none!important}
+  .about-photo.ap-float{animation:none!important}
+}
