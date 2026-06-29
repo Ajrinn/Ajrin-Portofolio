@@ -643,7 +643,7 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
 .cover:hover .cover-spot{opacity:1}
 
 /* 2. Hero aurora — soft green ambient behind AJRIN */
-.hero{position:relative}
+.hero{position:relative;overflow:hidden}
 .hero-aurora{
   position:absolute;width:860px;height:440px;
   pointer-events:none;z-index:0;will-change:transform;
