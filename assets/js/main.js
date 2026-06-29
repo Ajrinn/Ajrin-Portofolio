@@ -996,9 +996,13 @@
     var ap = document.getElementById("about-photo");
     if (!ap) return;
 
+    /* Hide via JS only — so photo is visible without JS/if observer fails */
+    ap.classList.add("ap-ready");
+
     /* Clip-path scroll reveal → then start float */
     var apIO = new IntersectionObserver(function (entries) {
       if (!entries[0].isIntersecting) return;
+      ap.classList.remove("ap-ready");
       ap.classList.add("ap-in");
       apIO.disconnect();
       if (!reduce) {
