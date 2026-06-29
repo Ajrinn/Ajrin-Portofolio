@@ -991,28 +991,35 @@
     staggerIO($("#res-list"),  ".res-row",    75, 320);
   })();
 
-  /* 4. About photo — float + 3D tilt */
+  /* 4. About photo — clip-wipe reveal + float + 3D tilt */
   (function () {
     var ap = document.getElementById("about-photo");
     if (!ap) return;
 
-    /* Start float after element enters viewport */
-    if (!reduce) {
-      var apIO = new IntersectionObserver(function (entries) {
-        if (!entries[0].isIntersecting) return;
-        apIO.disconnect();
-        setTimeout(function () { ap.classList.add("ap-float"); }, 700);
-      }, { threshold: 0.1 });
-      apIO.observe(ap);
-    }
+    /* Clip-path scroll reveal → then start float */
+    var apIO = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      ap.classList.add("ap-in");
+      apIO.disconnect();
+      if (!reduce) {
+        ap.addEventListener("transitionend", function onClip(e) {
+          if (e.propertyName !== "clip-path") return;
+          ap.classList.add("ap-float");
+          ap.removeEventListener("transitionend", onClip);
+        });
+      }
+    }, { threshold: 0.15 });
+    apIO.observe(ap);
 
     /* 3D tilt on hover */
     if (fine && !reduce) {
       ap.addEventListener("mouseenter", function () {
+        if (!ap.classList.contains("ap-in")) return;
         ap.style.animationPlayState = "paused";
         ap.style.transition = "transform 0.12s linear";
       });
       ap.addEventListener("mousemove", function (e) {
+        if (!ap.classList.contains("ap-in")) return;
         var r = ap.getBoundingClientRect();
         var x = (e.clientX - r.left) / r.width  * 2 - 1;
         var y = (e.clientY - r.top)  / r.height * 2 - 1;
@@ -1027,24 +1034,6 @@
         }, 700);
       });
     }
-  })();
-
-  /* 5. Dot-matrix cursor glow */
-  (function () {
-    var dotGlow = document.getElementById("dot-glow");
-    if (!fine || !dotGlow || reduce) return;
-    var gx = 0, gy = 0, gTick = false;
-    document.addEventListener("pointermove", function (e) {
-      gx = e.clientX; gy = e.clientY;
-      if (!gTick) {
-        gTick = true;
-        requestAnimationFrame(function () {
-          dotGlow.style.setProperty("--mx", gx + "px");
-          dotGlow.style.setProperty("--my", gy + "px");
-          gTick = false;
-        });
-      }
-    }, { passive: true });
   })();
 
 })();
