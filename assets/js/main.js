@@ -1036,4 +1036,22 @@
     }
   })();
 
+  /* 5. Dot-matrix cursor glow */
+  (function () {
+    var dotGlow = document.getElementById("dot-glow");
+    if (!fine || !dotGlow || reduce) return;
+    var gx = 0, gy = 0, gTick = false;
+    document.addEventListener("pointermove", function (e) {
+      gx = e.clientX; gy = e.clientY;
+      if (!gTick) {
+        gTick = true;
+        requestAnimationFrame(function () {
+          dotGlow.style.setProperty("--mx", gx + "px");
+          dotGlow.style.setProperty("--my", gy + "px");
+          gTick = false;
+        });
+      }
+    }, { passive: true });
+  })();
+
 })();

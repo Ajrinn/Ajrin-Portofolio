@@ -692,3 +692,21 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
   .about-photo{clip-path:none!important;transition:none!important}
   .about-photo.ap-float{animation:none!important}
 }
+
+/* 5. Dot-matrix background + cursor glow */
+body{isolation:isolate}
+:root{--dot-q:rgba(0,0,0,.18);--dot-lit:rgba(27,138,75,.9)}
+[data-theme="dark"]{--dot-q:rgba(255,255,255,.15);--dot-lit:rgba(52,199,120,.85)}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle,var(--dot-q) 1.5px,transparent 1.5px);
+  background-size:34px 34px;
+}
+#dot-glow{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle,var(--dot-lit) 1.5px,transparent 1.5px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(circle 180px at var(--mx,-9999px) var(--my,-9999px),black 0%,transparent 100%);
+  mask-image:radial-gradient(circle 180px at var(--mx,-9999px) var(--my,-9999px),black 0%,transparent 100%);
+}
+@media(prefers-reduced-motion:reduce){#dot-glow{display:none}}
