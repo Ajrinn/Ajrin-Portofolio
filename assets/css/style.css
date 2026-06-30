@@ -652,7 +652,7 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
 /* 2. Hero aurora — soft green ambient behind AJRIN */
 .hero{position:relative;overflow:hidden}
 .hero-aurora{
-  position:absolute;width:860px;height:440px;
+  position:fixed;top:0;left:0;width:860px;height:440px;
   pointer-events:none;z-index:0;will-change:transform;
   background:radial-gradient(ellipse at center,rgba(27,138,75,.26) 0%,rgba(27,138,75,.07) 44%,transparent 70%);
   filter:blur(72px);opacity:.82;
@@ -661,6 +661,7 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
   background:radial-gradient(ellipse at center,rgba(52,199,120,.22) 0%,rgba(52,199,120,.06) 44%,transparent 70%);
 }
 @media(prefers-reduced-motion:reduce){.hero-aurora{display:none}}
+@media(hover:none),(pointer:coarse){.hero-aurora{display:none}}
 
 /* 3. Staggered scroll reveal */
 .sr-item{

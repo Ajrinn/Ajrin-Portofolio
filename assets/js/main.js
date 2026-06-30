@@ -961,27 +961,25 @@
   /* =========================================================================
      HERO AURORA — green ambient glow follows cursor with soft lag
      ========================================================================= */
-  (function () {
-    var au = $("#hero-aurora");
-    if (!au || reduce) return;
-    var hs = au.parentElement;
-    var tx = 0.38, ty = 0.34, cx = 0.38, cy = 0.34;
-    function auLoop() {
-      cx += (tx - cx) * 0.045;
-      cy += (ty - cy) * 0.045;
-      var r = hs.getBoundingClientRect();
-      au.style.transform = "translate(" + (cx * r.width).toFixed(1) + "px," + (cy * r.height).toFixed(1) + "px) translate(-50%,-55%)";
-      requestAnimationFrame(auLoop);
-    }
-    requestAnimationFrame(auLoop);
-    if (fine) {
-      document.addEventListener("pointermove", function (e) {
-        var r = hs.getBoundingClientRect();
-        tx = Math.max(0.05, Math.min(0.95, (e.clientX - r.left) / r.width));
-        ty = Math.max(-0.1,  Math.min(1.1,  (e.clientY - r.top)  / r.height));
-      });
-    }
-  })();
+   (function () {
+     var au = $("#hero-aurora");
+     if (!au || reduce) return;
+     var tx = 0.38, ty = 0.34, cx = 0.38, cy = 0.34;
+     function auLoop() {
+       cx += (tx - cx) * 0.045;
+       cy += (ty - cy) * 0.045;
+       var vw = window.innerWidth, vh = window.innerHeight;
+       au.style.transform = "translate(" + (cx * vw).toFixed(1) + "px," + (cy * vh).toFixed(1) + "px) translate(-50%,-50%)";
+       requestAnimationFrame(auLoop);
+     }
+     requestAnimationFrame(auLoop);
+     if (fine) {
+       document.addEventListener("pointermove", function (e) {
+         tx = Math.max(0.05, Math.min(0.95, e.clientX / window.innerWidth));
+         ty = Math.max(0.0,  Math.min(1.0,  e.clientY / window.innerHeight));
+       });
+     }
+   })();
 
   /* =========================================================================
      STAGGERED SCROLL REVEAL — children rise+fade in sequence
