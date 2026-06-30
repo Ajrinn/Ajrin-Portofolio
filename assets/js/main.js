@@ -72,22 +72,22 @@
      DATA
      ========================================================================= */
   var projects = [
-    { name: "Qerja",              cat: "website", research: false, year: "2023", sub: "Website, Jobtech",    cs: null },
-    { name: "Bukuku",             cat: "website", research: false, year: "2024", sub: "Website, Product",    cs: null },
-    { name: "Nyapii.id",         cat: "website", research: false, year: "2023", sub: "Website, Brand",      cs: null },
-    { name: "Brock University",  cat: "website", research: false, year: "2022", sub: "Website, Education",  cs: null },
-    { name: "Erika RMS",         cat: "webapp",  research: false, year: "2023", sub: "Web App, HR Tech",    cs: null },
-    { name: "Jobs.id Jobfair",   cat: "webapp",  research: false, year: "2023", sub: "Web App, Jobtech",    cs: null },
-    { name: "Jastipxpress",      cat: "webapp",  research: false, year: "2022", sub: "Web App, Commerce",   cs: null },
-    { name: "Jobs.id RMS",       cat: "webapp",  research: false, year: "2023", sub: "Web App, HR Tech",    cs: null },
-    { name: "Education Platform",cat: "webapp",  research: true,  year: "2022", sub: "Web App, Research",   cs: "education" },
-    { name: "Qazwa",             cat: "mobile",  research: false, year: "2022", sub: "Mobile, Fintech",     cs: null },
-    { name: "Calo App",          cat: "mobile",  research: false, year: "2022", sub: "Mobile, Health",      cs: null },
-    { name: "Battery App",       cat: "mobile",  research: false, year: "2023", sub: "Mobile, Automotive",  cs: null },
-    { name: "Karir.com Revamp",  cat: "webapp",  research: false, year: "2023", sub: "Web App, Product",   cs: "karir",    selected: true },
-    { name: "NGBS Bank Bukopin", cat: "webapp",  research: false, year: "2022", sub: "Web App, Banking",   cs: "ngbs",     selected: true },
-    { name: "Dynavolt Battery",  cat: "mobile",  research: false, year: "2023", sub: "Mobile, Automotive", cs: "dynavolt", selected: true },
-    { name: "Space VPN",         cat: "mobile",  research: false, year: "2022", sub: "Mobile, Product",    cs: "spacevpn", selected: true }
+    { name: "Qerja",              cat: "website", research: false, year: "2023", sub: "Website, Jobtech",    cs: null,       img: "assets/img/project/qerja/qerja.png" },
+    { name: "Bukuku",             cat: "website", research: false, year: "2024", sub: "Website, Product",    cs: null,       img: "assets/img/project/Bukuku/bukuku.png" },
+    { name: "Nyapii.id",         cat: "website", research: false, year: "2023", sub: "Website, Brand",      cs: null,       img: "assets/img/project/nyapii/nyapii.png" },
+    { name: "Brock University",  cat: "website", research: false, year: "2022", sub: "Website, Education",  cs: null,       img: "assets/img/project/Brock%20uni/brock%20uni.png" },
+    { name: "Erika RMS",         cat: "webapp",  research: false, year: "2023", sub: "Web App, HR Tech",    cs: null,       img: "assets/img/project/Erika/erika.png" },
+    { name: "Jobs.id Jobfair",   cat: "webapp",  research: false, year: "2023", sub: "Web App, Jobtech",    cs: null,       img: "assets/img/project/Jobs.id%20jobfair/jobs.id%20jobfair.png" },
+    { name: "Jastipxpress",      cat: "webapp",  research: false, year: "2022", sub: "Web App, Commerce",   cs: null,       img: "assets/img/project/Jastipxpress/jastipxpress.png" },
+    { name: "Jobs.id RMS",       cat: "webapp",  research: false, year: "2023", sub: "Web App, HR Tech",    cs: null,       img: "assets/img/project/Jobs.id%20rms/jobs.id%20rms.png" },
+    { name: "Education Platform",cat: "webapp",  research: true,  year: "2022", sub: "Web App, Research",   cs: "education",img: "assets/img/project/education%20platform/education%20platform.png" },
+    { name: "Qazwa",             cat: "mobile",  research: false, year: "2022", sub: "Mobile, Fintech",     cs: null,       img: "assets/img/project/qazwa/qazwa.png" },
+    { name: "Calo App",          cat: "mobile",  research: false, year: "2022", sub: "Mobile, Health",      cs: null,       img: "assets/img/project/calo%20app/calo%20app.png" },
+    { name: "Battery App",       cat: "mobile",  research: false, year: "2023", sub: "Mobile, Automotive",  cs: null,       img: "assets/img/project/battery%20app/battery%20app.png" },
+    { name: "Karir.com Revamp",  cat: "webapp",  research: false, year: "2023", sub: "Web App, Product",    cs: "karir",    selected: true, img: "assets/img/project/karir/karir.png" },
+    { name: "NGBS Bank Bukopin", cat: "webapp",  research: false, year: "2022", sub: "Web App, Banking",    cs: "ngbs",     selected: true, img: "assets/img/project/Bukopin/bukopin.png" },
+    { name: "Dynavolt Battery",  cat: "mobile",  research: false, year: "2023", sub: "Mobile, Automotive",  cs: "dynavolt", selected: true, img: "assets/img/project/Dynavolt%20battery/dynavolt%20battery.png" },
+    { name: "Space VPN",         cat: "mobile",  research: false, year: "2022", sub: "Mobile, Product",     cs: "spacevpn", selected: true, img: "assets/img/project/Space%20vpn/space%20vpn.png" }
   ];
   projects.forEach(function (p, i) { p._pi = i; });
 
