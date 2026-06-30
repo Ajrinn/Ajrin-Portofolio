@@ -196,7 +196,7 @@
     { tag: "Case Study",   date: "Sep 2021", read: "8 min read",  title: "Insurance Service Application (BPJSTKU)", excerpt: "An in-depth case study analysing BPJSTKU's existing service flows, identifying usability gaps, and proposing design improvements for a more accessible experience.", url: "https://medium.com/@muhammadajrinn/case-study-analisis-aplikasi-penyedia-layanan-jasa-asuransi-bpjstku-fe22c2edeabe?sharedUserId=muhammadajrinn" }
   ];
 
-  var clients = ["Bukopin", "Qazwa", "Nyapii", "Dynavolt", "Tabby", "Calo"];
+  var clients = ["Bukopin", "Qazwa", "Nyapii", "Dynavolt", "MCASH", "EMTEK", "Tabby", "Calo App", "Fortrust", "Magenta", "Karir.com", "Jobs.id", "Qerja", "Brock Uni", "BPJS", "Bukuku", "Jakarta Academic", "+Others"];
   var tools = ["Figma", "FigJam", "Adobe XD", "Illustrator", "Photoshop", "Protopie", "Maze", "Notion", "Jira", "Framer", "Webflow", "WordPress"];
   var resources = [
     { name: "Mobile App Wireframe Kit", meta: "Figma file, 40+ components, 18 screens", free: true, neu: true },
