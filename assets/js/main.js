@@ -197,7 +197,7 @@
   ];
 
   var clients = ["Bukopin", "Qazwa", "Nyapii", "Dynavolt", "MCASH", "EMTEK", "Tabby", "Calo App", "Fortrust", "Magenta", "Karir.com", "Jobs.id", "Qerja", "Brock Uni", "BPJS", "Bukuku", "Jakarta Academic", "+Others"];
-  var tools = ["Figma", "FigJam", "Adobe XD", "Illustrator", "Photoshop", "Protopie", "Maze", "Notion", "Jira", "Framer", "Webflow", "WordPress"];
+  var tools = ["UX Research", "Visual Design", "Usability Testing", "Data-Driven Design", "Agentic UI", "Writing", "Prototyping", "Illustration", "Motion", "AI-Assisted Design", "QA"];
   var resources = [
     { name: "Mobile App Wireframe Kit", meta: "Figma file, 40+ components, 18 screens", free: true, neu: true },
     { name: "Design System Starter", meta: "Figma file, tokens and base components", free: true, neu: false },
