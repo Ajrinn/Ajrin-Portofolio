@@ -190,10 +190,10 @@
 
   // EDIT ME: your articles. Set "url" to the live link (e.g. your Medium post). Newest first.
   var articles = [
-    { tag: "UX Research",    date: "May 2025", read: "6 min read", title: "Designing for the least confident user", excerpt: "Why the people who struggle most with your product should shape its core flows, and how to actually find them.", url: "#" },
-    { tag: "Design Systems", date: "Mar 2025", read: "8 min read", title: "Your design system needs fewer components", excerpt: "Lessons from cutting a bloated library down to the handful of pieces a team really uses every day.", url: "#" },
-    { tag: "Product Design", date: "Jan 2025", read: "5 min read", title: "The handoff is a design problem", excerpt: "Treating developer handoff as part of the design rather than an afterthought, and what changed when I did.", url: "#" },
-    { tag: "UI Design",      date: "Nov 2024", read: "4 min read", title: "Small interactions, big trust", excerpt: "The tiny moments of feedback that decide whether people believe your product is actually working.", url: "#" }
+    { tag: "UX Research",  date: "Jan 2022", read: "10 min read", title: "Usability Testing Report E-learning Platform for Company Service Expansion", excerpt: "A structured usability study validating the e-learning platform redesign — uncovering friction points and guiding iterative improvements before launch.", url: "https://muhammadajrinn.medium.com/usability-testing-report-e-learning-platform-for-company-service-expansion-uix-project-8ac4948ba07c?sharedUserId=muhammadajrinn" },
+    { tag: "Case Study",   date: "Dec 2021", read: "10 min read", title: "Designing E-learning Platform for Education Company", excerpt: "From discovery to high-fidelity — a full UX design process for an education company's digital learning platform, covering research, wireframing, and final UI.", url: "https://muhammadajrinn.medium.com/designing-e-learning-platform-for-education-company-ui-ux-project-b8ca547e598e?sharedUserId=muhammadajrinn" },
+    { tag: "UX Research",  date: "Dec 2021", read: "8 min read",  title: "Usability Testing Report BPJSTKU Redesign", excerpt: "A usability evaluation of the redesigned BPJSTKU app, measuring task completion and identifying key pain points through moderated testing sessions.", url: "https://medium.com/@muhammadajrinn/usability-test-report-bpjstku-app-redesign-bc2f7c542190?sharedUserId=muhammadajrinn" },
+    { tag: "Case Study",   date: "Sep 2021", read: "8 min read",  title: "Insurance Service Application (BPJSTKU)", excerpt: "An in-depth case study analysing BPJSTKU's existing service flows, identifying usability gaps, and proposing design improvements for a more accessible experience.", url: "https://medium.com/@muhammadajrinn/case-study-analisis-aplikasi-penyedia-layanan-jasa-asuransi-bpjstku-fe22c2edeabe?sharedUserId=muhammadajrinn" }
   ];
 
   var clients = ["Bukopin", "Qazwa", "Nyapii", "Dynavolt", "Tabby", "Calo"];
@@ -232,6 +232,7 @@
     return "<" + tag + " " + attrs + ">" +
         '<div class="rname">' + p.name + "</div>" +
         '<div class="rcat">' + CAT_LABEL[p.cat] + "</div>" +
+        '<div class="rbadge">' + badge + "</div>" +
         '<div class="ryear">' + p.year + "</div>" +
         '<div class="rar">&#8599;</div>' +
       "</" + tag + ">";
@@ -244,13 +245,20 @@
   attachTilt($$("#work-grid .proj"));
 
   /* ---- services ---- */
+  var svcGifs = [
+    "assets/img/what i do 1.gif",
+    "assets/img/what i do 2.gif"
+  ];
   $("#svc-list").innerHTML = services.map(function (s, i) {
     var num = (i + 1 < 10 ? "0" : "") + (i + 1);
+    var thumb = svcGifs[i]
+      ? '<img src="' + svcGifs[i] + '" alt="" loading="lazy">'
+      : smallArt(i + 2);
     return '<div class="svc" tabindex="0">' +
         '<div class="num">' + num + ".</div>" +
         '<div class="body"><h3>' + s.t + "</h3><p>" + s.d + "</p></div>" +
         '<div class="arrow">&#8599;</div>' +
-        '<div class="svc-thumb">' + smallArt(i + 2) + "</div>" +
+        '<div class="svc-thumb">' + thumb + "</div>" +
       "</div>";
   }).join("");
 
@@ -261,9 +269,10 @@
   }).join("");
 
   /* ---- index ---- */
-  $("#index-grid").innerHTML = projects.map(projCard).join("");
-  $("#index-list").innerHTML = projects.map(listRow).join("");
-  $("#proj-count").textContent = projects.length + " projects";
+  var visibleProjects = projects.slice(0, 12);
+  $("#index-grid").innerHTML = visibleProjects.map(projCard).join("");
+  $("#index-list").innerHTML = visibleProjects.map(listRow).join("");
+  $("#proj-count").textContent = "12 of " + projects.length + " projects";
   attachTilt($$("#index-grid .proj"));
 
   /* ---- articles ---- */
