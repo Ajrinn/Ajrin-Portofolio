@@ -59,7 +59,7 @@ body{
   font-weight:400;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
-  overflow-x:hidden;
+  overflow-x:clip;
   transition:background var(--t) var(--ease), color var(--t) var(--ease);
 }
 /* subtle paper grain for editorial warmth */
