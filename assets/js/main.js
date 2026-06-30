@@ -1,3 +1,30 @@
+/* =========================================================================
+   LOADING SCREEN — dismiss after page ready
+   ========================================================================= */
+(function () {
+  var loader = document.getElementById("loader");
+  if (!loader) return;
+  var MIN_MS = 1800; // minimum display time so animation plays fully
+  var start  = Date.now();
+
+  function dismiss() {
+    var elapsed = Date.now() - start;
+    var delay   = Math.max(0, MIN_MS - elapsed);
+    setTimeout(function () {
+      loader.classList.add("ld-out");
+      loader.addEventListener("transitionend", function () {
+        loader.classList.add("ld-done");
+      }, { once: true });
+    }, delay);
+  }
+
+  if (document.readyState === "complete") {
+    dismiss();
+  } else {
+    window.addEventListener("load", dismiss);
+  }
+})();
+
 /* ===========================================================================
    Ajrin Portfolio - application script
    Renders content from data + wires all interactions.
