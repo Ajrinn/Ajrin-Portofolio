@@ -199,9 +199,10 @@
   var clients = ["Bukopin", "Qazwa", "Nyapii", "Dynavolt", "MCASH", "EMTEK", "Tabby", "Calo App", "Fortrust", "Magenta", "Karir.com", "Jobs.id", "Qerja", "Brock Uni", "BPJS", "Bukuku", "Jakarta Academic", "+Others"];
   var tools = ["UX Research", "Visual Design", "Usability Testing", "Data-Driven Design", "Agentic UI", "Writing", "Prototyping", "Illustration", "Motion", "AI-Assisted Design", "QA"];
   var resources = [
-    { name: "Mobile App Wireframe Kit", meta: "Figma file, 40+ components, 18 screens", free: true, neu: true },
-    { name: "Design System Starter", meta: "Figma file, tokens and base components", free: true, neu: false },
-    { name: "UX Research Templates", meta: "Notion and Figma, interview and usability kit", free: true, neu: false }
+    { name: "User Journey Template",  meta: "Help guide your design and development process",             free: true, neu: false, url: "https://www.figma.com/community/file/1201460961731106922" },
+    { name: "Competitor Analyst",     meta: "Evaluate and improve your digital product against competitors", free: true, neu: false, url: "https://www.figma.com/community/file/1201474764267940980" },
+    { name: "User Persona",           meta: "Understand your users' needs, goals, and behaviors",          free: true, neu: false, url: "https://www.figma.com/community/file/1201782125741739406" },
+    { name: "Empathy Map",            meta: "Understand your users' needs and emotions",                   free: true, neu: false, url: "https://www.figma.com/community/file/1202913163727315780" }
   ];
 
   /* =========================================================================
@@ -307,7 +308,7 @@
     return '<div class="res-row"><div class="ricon">' + fileIcon + "</div>" +
       '<div><h3>' + r.name + (r.free ? ' <span class="tag-free">Free</span>' : "") + (r.neu ? ' <span class="badge-on"><span class="d"></span>New</span>' : "") + "</h3>" +
       '<div class="rmeta">' + r.meta + "</div></div>" +
-      '<a href="#" class="link-ar res-dl">Download <span class="arrow">&#8595;</span></a></div>';
+      '<a href="' + (r.url || "#") + '" class="link-ar res-dl" target="_blank" rel="noopener">Get it free <span class="arrow">&#8599;</span></a></div>';
   }).join("");
 
   /* ---- about photo is a static <img> in the HTML ---- */
