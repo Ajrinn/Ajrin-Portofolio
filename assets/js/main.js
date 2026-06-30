@@ -717,12 +717,30 @@
         firstBad.focus();
         return;
       }
-      // No backend: open the user's mail client (swap for Formspree / Resend / EmailJS to capture server-side)
-      var subject = encodeURIComponent("[" + chosenType + "] Inquiry from " + name.value.trim());
-      var body = encodeURIComponent(msg.value.trim() + "\n\n- " + name.value.trim() + " (" + email.value.trim() + ")");
-      try { window.location.href = "mailto:hello@ajrin.design?subject=" + subject + "&body=" + body; } catch (err) {}
-      form.style.display = "none";
-      $("#form-success").classList.add("show");
+      var subject = "[" + chosenType + "] Inquiry from " + name.value.trim();
+      var payload = {
+        access_key: "5730ab60-89f7-4b0d-9b8a-9cd5de8531d0",
+        name:    name.value.trim(),
+        email:   email.value.trim(),
+        message: msg.value.trim(),
+        subject: subject
+      };
+      var btn = form.querySelector('[type="submit"]');
+      btn.disabled = true;
+      fetch("https://api.web3forms.com/submit", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body:    JSON.stringify(payload)
+      }).then(function (r) { return r.json(); }).then(function () {
+        form.style.display = "none";
+        $("#form-success").classList.add("show");
+      }).catch(function () {
+        var s = encodeURIComponent(subject);
+        var b = encodeURIComponent(msg.value.trim() + "\n\n— " + name.value.trim() + " (" + email.value.trim() + ")");
+        try { window.open("mailto:ajrin.workk@gmail.com?subject=" + s + "&body=" + b); } catch (_) {}
+        form.style.display = "none";
+        $("#form-success").classList.add("show");
+      }).finally(function () { btn.disabled = false; });
     });
   }
 
