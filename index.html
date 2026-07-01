@@ -14,32 +14,31 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
-/* Loader critical — inlined, guaranteed first */
+/* Loader — critical CSS inlined so it renders before style.css */
 html.is-loading,html.is-loading body{overflow:hidden!important}
 #loader{
   position:fixed!important;inset:0!important;
   width:100vw!important;height:100vh!important;
   z-index:99999!important;background:#0D0D0D!important;
   display:flex!important;align-items:center!important;justify-content:center!important;
-  transition:opacity .65s cubic-bezier(.22,1,.36,1),visibility .65s!important;
+  transition:transform .8s cubic-bezier(.76,0,.24,1)!important;
 }
-#loader.ld-out{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+#loader.ld-out{transform:translateY(-105%)!important}
 #loader.ld-done{display:none!important}
 </style>
 <script>
-/* Loader controller — runs in <head> so timer starts at true page-load time */
 (function(){
-  var MIN=1800,MAX=5000,start=Date.now(),done=false;
+  var MIN=2500,MAX=6000,start=Date.now(),done=false;
   document.documentElement.classList.add("is-loading");
   function dismiss(){
-    if(done)return; done=true;
+    if(done)return;done=true;
     document.documentElement.classList.remove("is-loading");
     var wait=Math.max(0,MIN-(Date.now()-start));
     setTimeout(function(){
       var el=document.getElementById("loader");
       if(!el)return;
       el.classList.add("ld-out");
-      setTimeout(function(){el.classList.add("ld-done");},700);
+      setTimeout(function(){el.classList.add("ld-done");},900);
     },wait);
   }
   setTimeout(dismiss,MAX);
@@ -50,13 +49,18 @@ html.is-loading,html.is-loading body{overflow:hidden!important}
 <body>
 <!-- ============ LOADING SCREEN ============ -->
 <div id="loader" aria-hidden="true">
-  <div class="ld-c">
-    <div class="ld-name" aria-label="Ajrin">
-      <span>A</span><span>J</span><span>R</span><span>I</span><span>N</span>
+  <div class="ld-body">
+    <div class="ld-logo">
+      <div class="ld-mark">
+        <span class="ld-la">A</span>
+        <span class="ld-ld"></span>
+      </div>
+      <div class="ld-sep"></div>
+      <span class="ld-lname">Ajrin</span>
     </div>
-    <p class="ld-role">Product / UI·UX Designer</p>
+    <p class="ld-msg">Please wait, I'm getting ready...</p>
   </div>
-  <div class="ld-track"><span class="ld-fill"></span></div>
+  <div class="ld-bar"><span class="ld-fill"></span></div>
 </div>
 <!-- custom cursor -->
 <div class="cursor-ring" id="cur-ring"></div>

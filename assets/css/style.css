@@ -692,7 +692,6 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
 }
 .about-photo:hover::after{opacity:.55}
 @media(prefers-reduced-motion:reduce){
-@media(prefers-reduced-motion:reduce){
   .about-photo.ap-float{animation:none!important}
 }
 
@@ -701,54 +700,79 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
    ========================================================================= */
 html.is-loading,html.is-loading body{overflow:hidden!important}
 #loader{
-  position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;
+  position:fixed;inset:0;z-index:99999;
   background:#0D0D0D;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  transition:opacity .7s cubic-bezier(.22,1,.36,1),visibility .7s;
+  transition:transform .8s cubic-bezier(.76,0,.24,1);
 }
-#loader.ld-out{opacity:0;visibility:hidden;pointer-events:none}
+#loader.ld-out{transform:translateY(-105%)}
 #loader.ld-done{display:none}
-/* center content */
-.ld-c{
-  display:flex;flex-direction:column;align-items:center;gap:20px;
+/* ambient green glow behind logo */
+#loader::before{
+  content:"";position:absolute;
+  width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(27,138,75,.09) 0%,transparent 68%);
+  pointer-events:none;
+  animation:ld-glow 3.5s ease-in-out infinite;
 }
-/* name */
-.ld-name{
+/* center group */
+.ld-body{
+  display:flex;flex-direction:column;
+  align-items:center;gap:28px;
+  position:relative;z-index:1;
+}
+/* logo row */
+.ld-logo{
+  display:flex;align-items:center;gap:14px;
+  opacity:0;transform:translateY(14px) scale(.88);
+  animation:ld-pop .65s cubic-bezier(.34,1.35,.64,1) .08s forwards;
+}
+/* brand mark box */
+.ld-mark{
+  position:relative;width:46px;height:46px;flex:none;
+  border:1.5px solid rgba(245,245,244,.2);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  animation:ld-pulse 2.5s ease-in-out infinite;
+  animation-delay:.8s;
+}
+.ld-la{
   font-family:"Plus Jakarta Sans",system-ui,sans-serif;
-  font-weight:800;
-  font-size:clamp(64px,12vw,108px);
-  letter-spacing:-.03em;
-  line-height:1;
-  color:#F5F5F4;
-  display:flex;gap:0;
-  overflow:hidden;
+  font-weight:800;font-size:25px;letter-spacing:-.04em;
+  color:#F5F5F4;line-height:1;
 }
-.ld-name span{
-  display:inline-block;
-  opacity:0;
-  transform:translateY(60px);
-  animation:ld-up .6s cubic-bezier(.22,1,.36,1) forwards;
+/* green status dot */
+.ld-ld{
+  position:absolute;top:5px;right:5px;
+  width:5px;height:5px;border-radius:50%;
+  background:#34C778;
+  animation:ld-blink 1.3s ease-in-out infinite;
+  animation-delay:.8s;
 }
-.ld-name span:nth-child(1){animation-delay:.05s}
-.ld-name span:nth-child(2){animation-delay:.13s}
-.ld-name span:nth-child(3){animation-delay:.21s}
-.ld-name span:nth-child(4){animation-delay:.29s}
-.ld-name span:nth-child(5){animation-delay:.37s}
-/* role */
-.ld-role{
+/* divider between mark and name */
+.ld-sep{
+  width:1px;height:24px;
+  background:rgba(245,245,244,.14);
+  flex:none;
+}
+/* site name */
+.ld-lname{
   font-family:"Plus Jakarta Sans",system-ui,sans-serif;
-  font-size:clamp(11px,.8vw,13px);
-  font-weight:500;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(245,245,244,.35);
-  opacity:0;
-  animation:ld-fade .55s ease forwards;
-  animation-delay:.72s;
+  font-weight:800;font-size:clamp(21px,2.4vw,26px);
+  letter-spacing:-.04em;color:#F5F5F4;line-height:1;
 }
-/* progress track — full width at bottom */
-.ld-track{
+/* typewriter text */
+.ld-msg{
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  font-size:clamp(11px,.78vw,12px);font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(245,245,244,.36);
+  white-space:nowrap;
+  clip-path:inset(0 100% 0 0);
+  animation:ld-type 1.9s steps(34,end) .55s forwards;
+}
+/* progress bar — full width at bottom */
+.ld-bar{
   position:absolute;bottom:0;left:0;
   width:100%;height:2px;
   background:rgba(245,245,244,.06);
@@ -756,23 +780,38 @@ html.is-loading,html.is-loading body{overflow:hidden!important}
 }
 .ld-fill{
   display:block;height:100%;width:0;
-  background:#34C778;
-  animation:ld-bar 1.8s cubic-bezier(.4,0,.2,1) forwards;
-  animation-delay:.05s;
+  background:linear-gradient(90deg,#1B8A4B 0%,#34C778 60%,#52d98f 100%);
+  animation:ld-progress 2.4s cubic-bezier(.4,0,.2,1) .05s forwards;
 }
-@keyframes ld-up{
+@keyframes ld-glow{
+  0%,100%{opacity:.8;transform:scale(1)}
+  50%    {opacity:1;transform:scale(1.12)}
+}
+@keyframes ld-pop{
   to{opacity:1;transform:none}
 }
-@keyframes ld-fade{
-  to{opacity:1}
+@keyframes ld-pulse{
+  0%,100%{border-color:rgba(245,245,244,.2)}
+  50%    {border-color:rgba(245,245,244,.5)}
 }
-@keyframes ld-bar{
+@keyframes ld-blink{
+  0%,100%{opacity:1}
+  50%    {opacity:.18}
+}
+@keyframes ld-type{
+  to{clip-path:inset(0 0% 0 0)}
+}
+@keyframes ld-progress{
   0%  {width:0}
-  55% {width:62%}
+  50% {width:60%}
+  85% {width:88%}
   100%{width:100%}
 }
 @media(prefers-reduced-motion:reduce){
   #loader{transition:none}
-  .ld-name span,.ld-role{animation:none;opacity:1;transform:none}
+  #loader::before{animation:none}
+  .ld-logo{animation:none;opacity:1;transform:none}
+  .ld-mark,.ld-ld{animation:none}
+  .ld-msg{animation:none;clip-path:none}
   .ld-fill{animation:none;width:100%}
 }
