@@ -679,11 +679,6 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
   0%,100%{transform:translateY(0px)}
   50%    {transform:translateY(-10px)}
 }
-.about-photo{
-  clip-path:inset(0 0 100% 0 round var(--radius));
-  transition:clip-path .88s cubic-bezier(.77,0,.175,1) .32s;
-}
-.about-photo.ap-in{clip-path:inset(0 0 0% 0 round var(--radius))}
 .about-photo.ap-float{animation:ap-float 7s ease-in-out infinite}
 .about-photo img{
   filter:saturate(.78);
@@ -697,7 +692,7 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
 }
 .about-photo:hover::after{opacity:.55}
 @media(prefers-reduced-motion:reduce){
-  .about-photo{clip-path:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){
   .about-photo.ap-float{animation:none!important}
 }
 
