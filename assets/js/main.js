@@ -1,27 +1,40 @@
 /* =========================================================================
-   LOADING SCREEN — dismiss after page ready
+   LOADING SCREEN — dismiss after DOM ready + minimum display time
    ========================================================================= */
 (function () {
   var loader = document.getElementById("loader");
   if (!loader) return;
-  var MIN_MS = 1800; // minimum display time so animation plays fully
-  var start  = Date.now();
+
+  var MIN_MS  = 1800;
+  var MAX_MS  = 5000; // failsafe: always dismiss after 5s
+  var start   = Date.now();
+  var done    = false;
+
+  document.documentElement.classList.add("is-loading");
+  document.body && document.body.classList.add("is-loading");
 
   function dismiss() {
+    if (done) return;
+    done = true;
+    document.body.classList.remove("is-loading");
     var elapsed = Date.now() - start;
     var delay   = Math.max(0, MIN_MS - elapsed);
     setTimeout(function () {
       loader.classList.add("ld-out");
-      loader.addEventListener("transitionend", function () {
-        loader.classList.add("ld-done");
-      }, { once: true });
+      setTimeout(function () { loader.classList.add("ld-done"); }, 700);
     }, delay);
   }
 
-  if (document.readyState === "complete") {
-    dismiss();
+  /* Failsafe: dismiss no matter what after MAX_MS */
+  setTimeout(dismiss, MAX_MS);
+
+  /* Dismiss when DOM + critical assets (not video) are ready */
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(dismiss, 0);
+    });
   } else {
-    window.addEventListener("load", dismiss);
+    setTimeout(dismiss, 0);
   }
 })();
 
