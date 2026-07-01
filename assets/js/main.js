@@ -247,7 +247,9 @@
   /* ---- services ---- */
   var svcGifs = [
     "assets/img/what i do 1.gif",
-    "assets/img/what i do 2.gif"
+    "assets/img/what i do 2.gif",
+    "assets/img/what i do 3.gif",
+    "assets/img/what i do 4.gif"
   ];
   $("#svc-list").innerHTML = services.map(function (s, i) {
     var num = (i + 1 < 10 ? "0" : "") + (i + 1);
