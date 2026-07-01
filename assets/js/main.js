@@ -11,12 +11,11 @@
   var done    = false;
 
   document.documentElement.classList.add("is-loading");
-  document.body && document.body.classList.add("is-loading");
 
   function dismiss() {
     if (done) return;
     done = true;
-    document.body.classList.remove("is-loading");
+    document.documentElement.classList.remove("is-loading");
     var elapsed = Date.now() - start;
     var delay   = Math.max(0, MIN_MS - elapsed);
     setTimeout(function () {

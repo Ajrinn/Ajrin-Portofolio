@@ -699,7 +699,7 @@ textarea.field{resize:vertical;min-height:84px;line-height:1.5}
 /* =========================================================================
    LOADING SCREEN
    ========================================================================= */
-body.is-loading{overflow:hidden!important}
+html.is-loading,html.is-loading body{overflow:hidden!important}
 #loader{
   position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;
   background:#0D0D0D;

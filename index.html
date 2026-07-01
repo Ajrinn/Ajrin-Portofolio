@@ -13,6 +13,13 @@
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
 <script defer src="/_vercel/insights/script.js"></script>
+<style>
+/* Critical loader — inlined so it works before style.css parses */
+#loader{position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;z-index:99999!important;background:#0D0D0D;display:flex;align-items:center;justify-content:center;transition:opacity .6s cubic-bezier(.22,1,.36,1),visibility .6s}
+#loader.ld-out{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+#loader.ld-done{display:none!important}
+html.is-loading,html.is-loading body{overflow:hidden!important;height:100%!important}
+</style>
 </head>
 <body>
 <!-- ============ LOADING SCREEN ============ -->
